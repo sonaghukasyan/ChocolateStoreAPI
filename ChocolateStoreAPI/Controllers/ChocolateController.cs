@@ -10,14 +10,12 @@ namespace ChocolateStoreAPI.Controllers
     [ApiController]
     public class ChocolateController : ControllerBase
     {
-        private List<IChocolate> _chocolates;
-        private IDataAccess<IChocolate> _dataAccess;
+        private List<Chocolate> _chocolates;
+        private IDataAccess<Chocolate> _dataAccess;
 
-        public ChocolateController()
+        public ChocolateController(IDataAccess<Chocolate> _dataAccess)
         {
-            if(_dataAccess == null)
-                    _dataAccess = new DataAccess<IChocolate>("Chocolate");
-            
+            this._dataAccess = _dataAccess;
             this._chocolates = _dataAccess.Read();
         }
         
@@ -44,7 +42,7 @@ namespace ChocolateStoreAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Save(IChocolate chocolate)
+        public IActionResult Save(Chocolate chocolate)
         {
             _chocolates.Add(chocolate);
             if (_chocolates.Count == 0)

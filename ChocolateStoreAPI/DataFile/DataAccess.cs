@@ -5,14 +5,14 @@ using System.Text;
 
 namespace ChocolateStoreAPI.DataFile
 {
-    internal class DataAccess<T> : IDataAccess<T>
+    public class DataAccess<T> : IDataAccess<T>
     {
         private DirectoryInfo DirectoryInfo;
         public string DirectoryName { get; set; }
 
-        public DataAccess(string name)
+        public DataAccess()
         {
-            this.DirectoryName = name;
+            this.DirectoryName = "Data";
             DirectoryInfo = new DirectoryInfo(this.DirectoryName);
             DirectoryInfo.Create();
         }

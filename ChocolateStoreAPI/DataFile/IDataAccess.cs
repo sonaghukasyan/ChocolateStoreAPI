@@ -2,7 +2,7 @@
 
 namespace ChocolateStoreAPI.DataFile
 {
-    internal interface IDataAccess<T>
+    public interface IDataAccess<T>
     {
         void Save(List<T> list);
         List<T> Read();

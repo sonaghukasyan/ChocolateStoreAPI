@@ -1,8 +1,10 @@
+using ChocolateStoreAPI.DataFile;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ChocolateStoreAPI.Models;
 using Microsoft.OpenApi.Models;
 
 namespace ChocolateStoreAPI
@@ -24,6 +26,7 @@ namespace ChocolateStoreAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChocolateStoreAPI", Version = "v1" });
             });
+            services.AddSingleton<IDataAccess<Chocolate>, DataAccess<Chocolate>>();
         }
 
         //A
