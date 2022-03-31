@@ -1,6 +1,6 @@
 ﻿namespace ChocolateStoreAPI.Models
 {
-    public class Chocolate
+    public class IChocolate
     {
         public int Id { get; set; }
         public string Brand { get; set; }
