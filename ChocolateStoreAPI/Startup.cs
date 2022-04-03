@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ChocolateStoreAPI.Models;
 using Microsoft.OpenApi.Models;
+using ChocolateStoreAPI.Services;
 
 namespace ChocolateStoreAPI
 {
@@ -21,12 +22,14 @@ namespace ChocolateStoreAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             services.AddControllers();
+            services.AddSingleton<IChocolateService, ChocolateService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChocolateStoreAPI", Version = "v1" });
             });
-            services.AddSingleton<IDataAccess<Chocolate>, DataAccess<Chocolate>>();
+           
         }
 
         //A

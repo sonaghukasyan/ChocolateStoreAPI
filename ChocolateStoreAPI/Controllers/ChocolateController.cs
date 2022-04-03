@@ -1,6 +1,8 @@
 ﻿using ChocolateStoreAPI.DataFile;
 using ChocolateStoreAPI.Models;
+using ChocolateStoreAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,64 +12,68 @@ namespace ChocolateStoreAPI.Controllers
     [ApiController]
     public class ChocolateController : ControllerBase
     {
-        private List<Chocolate> _chocolates;
-        private IDataAccess<Chocolate> _dataAccess;
+        private readonly IChocolateService _chocolateService;
 
-        public ChocolateController(IDataAccess<Chocolate> _dataAccess)
+        public ChocolateController(IChocolateService chocolateService)
         {
-            this._dataAccess = _dataAccess;
-            this._chocolates = _dataAccess.Read();
+            this._chocolateService = chocolateService;
         }
         
         [HttpGet]
-        public IActionResult Gets()
+        public IActionResult Get()
         {
-            if (_chocolates.Count == 0)
+            try
             {
-                return NotFound("No list found.");
+                _chocolateService.Get();
+                return Ok(_chocolateService.Get());
             }
-            return Ok(_chocolates);
+            catch(Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet("GetMobile")]
         public IActionResult Get(int id)
         {
-            var chocolate = _chocolates.SingleOrDefault(x => x.Id == id);
-            if (chocolate == null)
+            try
             {
-                return NotFound("No mobile with that id found");
+                _chocolateService.GetByID(id);
+                return Ok(_chocolateService.Get());
             }
-            return Ok(chocolate);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
 
         [HttpPost]
         public IActionResult Save(Chocolate chocolate)
         {
-            _chocolates.Add(chocolate);
-            if (_chocolates.Count == 0)
+            try
             {
-                return NotFound("No list found.");
+                _chocolateService.Save(chocolate);
+                return Ok(_chocolateService.Get());
             }
-            _dataAccess.Save(_chocolates);
-            return Ok(_chocolates);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var chocolate = _chocolates.SingleOrDefault(x => x.Id == id);
-            if (chocolate == null)
+            try
             {
-                return NotFound("No mobile with that id found");
+                _chocolateService.Delete(id);
+                return Ok(_chocolateService.Get());
             }
-            _chocolates.Remove(chocolate);
-            if (_chocolates.Count == 0)
+            catch (Exception ex)
             {
-                return NotFound("No list found.");
+                return NotFound(ex.Message);
             }
-            _dataAccess.Save(_chocolates);
-            return Ok(_chocolates);
         }
     }
 }

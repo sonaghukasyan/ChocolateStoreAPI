@@ -16,7 +16,7 @@ namespace ChocolateStoreAPI.DataFile
             DirectoryInfo = new DirectoryInfo(this.DirectoryName);
             DirectoryInfo.Create();
         }
-        public void Save(List<T> list)
+        public void Save(IEnumerable<T> list)
         {
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -33,7 +33,7 @@ namespace ChocolateStoreAPI.DataFile
             }
         }
 
-        public List<T> Read()
+        public IEnumerable<T> Read()
         {
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -44,11 +44,11 @@ namespace ChocolateStoreAPI.DataFile
             using (FileStream fileStream = new FileStream(DirectoryName + "/File.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
                 data = new byte[fileStream.Length];
-                fileStream.Write(data, 0, data.Length);
+                fileStream.Read(data, 0, data.Length);
             }
 
             string JsonData = Encoding.Default.GetString(data);
-            List<T> list = JsonConvert.DeserializeObject<List<T>>(JsonData, jsonSerializerSettings);
+            IEnumerable<T> list = JsonConvert.DeserializeObject<IEnumerable<T>>(JsonData, jsonSerializerSettings);
 
             if (list == null)
             {

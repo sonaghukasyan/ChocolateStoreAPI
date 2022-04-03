@@ -4,7 +4,7 @@ namespace ChocolateStoreAPI.DataFile
 {
     public interface IDataAccess<T>
     {
-        void Save(List<T> list);
-        List<T> Read();
+        void Save(IEnumerable<T> list);
+        IEnumerable<T> Read();
     }
 }
